@@ -75,7 +75,7 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
     ),
     "openrouter": ModelConfig(
         provider_name="openrouter",
-        model_id="nvidia/nemotron-3-ultra-550b-a55b:free",
+        model_id="openrouter/free",
         cost_per_input_token=0.0,
         cost_per_output_token=0.0,
         average_latency_ms=700,

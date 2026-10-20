@@ -67,6 +67,7 @@ OLLAMA_API_KEY=your_ollama_api_key
 GEMINI_APIKEY=your_gemini_api_key
 HF_TOKEN=your_huggingface_token
 OLLAMALOCAL_API_KEY=nothing
+OPENROUTER_API_KEY=your_openrouter_api_key
 ```
 
 ## Usage
