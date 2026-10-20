@@ -9,6 +9,7 @@ A Streamlit application that allows you to send the same prompt to multiple LLM 
 - **Performance Metrics**: View token usage, latency, and estimated costs for each model
 - **Comparison Table**: Side-by-side comparison of all model responses with detailed metrics
 - **Flexible Configuration**: Select any combination of registered models
+- **Global Model Settings**: Apply a shared system prompt and temperature to every selected model
 
 ## Supported Models
 
@@ -82,9 +83,12 @@ The application will open in your browser at `http://localhost:8501`.
 ### How to Use
 
 1. **Select Models**: In the sidebar, choose which models you want to compare
-2. **Enter Prompt**: Type your prompt in the text area
-3. **Run Models**: Click the "🚀 Run Models" button
-4. **View Results**: See individual model responses and a comparison table with metrics
+2. **Configure Global Settings**: Expand "Global model settings" to set an optional system prompt and temperature
+3. **Enter Prompt**: Type your prompt in the text area
+4. **Run Models**: Click the "🚀 Run Models" button
+5. **View Results**: See individual model responses and a comparison table with metrics
+
+![Global model settings in the sidebar](screenshots/global-settings.png)
 
 ## Configuration
 
