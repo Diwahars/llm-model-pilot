@@ -73,6 +73,14 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         average_latency_ms=700,
         quality_tier="high",
     ),
+    "openrouter": ModelConfig(
+        provider_name="openrouter",
+        model_id="nvidia/nemotron-3-ultra-550b-a55b:free",
+        cost_per_input_token=0.0,
+        cost_per_output_token=0.0,
+        average_latency_ms=700,
+        quality_tier="medium",
+    ),
     "ollama-local": ModelConfig(
         provider_name="ollama_local",
         model_id="llama3.2:latest",
@@ -114,10 +122,15 @@ def send_request(prompt: str, model_config: ModelConfig) -> Response:
     input_tokens = None
     output_tokens = None
 
-    if provider in ("openai", "groq"):
+    if provider in ("openai", "groq","openrouter"):
         if provider == "openai":
             client = OpenAI(
                 api_key=required_env("OPENAI_API_KEY")
+            )
+        elif provider == "openrouter":
+            client = OpenAI(
+                api_key=required_env("OPENROUTER_API_KEY"),
+                base_url="https://openrouter.ai/api/v1",
             )
         else:
             client = OpenAI(

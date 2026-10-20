@@ -166,5 +166,5 @@ if run_button:
         st.dataframe(
             comparison,
             width="stretch",
-            hide_index=True,̥
+            hide_index=True,
         )
