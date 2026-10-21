@@ -32,6 +32,21 @@ selected_models = st.sidebar.multiselect(
     ],
 )
 
+with st.sidebar.expander("Global model settings", expanded=False):
+    system_prompt = st.text_area(
+        "System prompt",
+        placeholder="Optional instructions applied to every model...",
+        help="This instruction is sent before your prompt to each selected model.",
+    )
+    temperature = st.slider(
+        "Temperature",
+        min_value=0.0,
+        max_value=2.0,
+        value=0.7,
+        step=0.1,
+        help="Lower values make output more deterministic; higher values increase variation.",
+    )
+
 # Prompt input
 prompt = st.text_area(
     "Enter your prompt",
@@ -53,7 +68,12 @@ if run_button:
 
     def run_one(name):
         config = MODEL_REGISTRY[name]
-        return send_request(prompt, config)
+        return send_request(
+            prompt,
+            config,
+            system_prompt=system_prompt,
+            temperature=temperature,
+        )
 
     with ThreadPoolExecutor(
         max_workers=min(len(selected_models), 5)

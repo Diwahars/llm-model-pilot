@@ -111,7 +111,12 @@ def required_env(name: str) -> str:
     return value
 
 
-def send_request(prompt: str, model_config: ModelConfig) -> Response:
+def send_request(
+    prompt: str,
+    model_config: ModelConfig,
+    system_prompt: str = "",
+    temperature: float = 0.7,
+) -> Response:
     """Send a prompt to any registered provider."""
 
     start = time.perf_counter()
@@ -138,11 +143,15 @@ def send_request(prompt: str, model_config: ModelConfig) -> Response:
                 base_url="https://api.groq.com/openai/v1",
             )
 
+        messages = []
+        if system_prompt.strip():
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
         result = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=messages,
+            temperature=temperature,
         )
 
         output_text = result.choices[0].message.content or ""
@@ -161,6 +170,8 @@ def send_request(prompt: str, model_config: ModelConfig) -> Response:
             contents=prompt,
             config=types.GenerateContentConfig(
                 max_output_tokens=1024,
+                system_instruction=system_prompt.strip() or None,
+                temperature=temperature,
             ),
         )
 
@@ -193,11 +204,15 @@ def send_request(prompt: str, model_config: ModelConfig) -> Response:
                 },
             )
 
+        messages = []
+        if system_prompt.strip():
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
         result = client.chat(
             model=model,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=messages,
+            options={"temperature": temperature},
         )
 
         output_text = result.message.content or ""
@@ -216,7 +231,8 @@ def send_request(prompt: str, model_config: ModelConfig) -> Response:
     )
 
     if input_tokens is None:
-        input_tokens = max(1, len(prompt) // 4)
+        input_text = f"{system_prompt}\n{prompt}" if system_prompt.strip() else prompt
+        input_tokens = max(1, len(input_text) // 4)
 
     if output_tokens is None:
         output_tokens = (
