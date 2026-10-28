@@ -13,3 +13,4 @@ __pycache__/
 
 *.log
 modules/1_embeddings/embeddings_similarity_analysis.png
+test.py
